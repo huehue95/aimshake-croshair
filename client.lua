@@ -17,10 +17,14 @@ CreateThread(function()
 	if not HasStreamedTextureDictLoaded(menu) then
 		RequestStreamedTextureDict(menu)
 	end
+	local Ped = PlayerPedId()
 
+	repeat
+		Ped = PlayerPedId()
+	until Ped ~= nil
 	while true do
-		local player = GetPlayerPed(-1)
-		local hasWeapon,weaponHash = GetCurrentPedWeapon(player)
+		local hasWeapon,weaponHash = GetCurrentPedWeapon(Ped)
+
 
 		if IsPedUsingActionMode(PlayerPedId()) and not GetPedConfigFlag(PlayerPedId(),78,1) then
 			SetPedUsingActionMode(PlayerPedId(), false, -1, 0)
@@ -31,13 +35,15 @@ CreateThread(function()
 			if not snipers[weaponHash] then
 				HideHudComponentThisFrame(14)
 			end
-
+			repeat
+				Ped = PlayerPedId()
+			until Ped ~= nil
 			if IsPlayerFreeAiming(PlayerId()) then
 				local x,y = GetActiveScreenResolution()
 				local z = 0.5625 * y
-				local speed_ = GetEntitySpeed(PlayerPedId())
-					
+
 				if not snipers[weaponHash] and GetFollowPedCamViewMode() ~= 4 then
+					local speed_ = GetEntitySpeed(PlayerPedId())
 					if speed_ <= 0.5 then
 						DrawSprite(menu,'crosshair',0.5,0.5, 0.01, (x/y)/100, 0.0,255,255,255,255)
 					else
@@ -57,7 +63,7 @@ CreateThread(function()
 			end
 			SetWeaponsNoAutoswap(GetSelectedPedWeapon(PlayerPedId()))
 		else
-			Wait(100)
+			Wait(1100)
 		end
 		Wait(1)
 	end

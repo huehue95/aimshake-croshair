@@ -35,9 +35,7 @@ CreateThread(function()
 			if not snipers[weaponHash] then
 				HideHudComponentThisFrame(14)
 			end
-			repeat
-				Ped = PlayerPedId()
-			until Ped ~= nil
+				
 			if IsPlayerFreeAiming(PlayerId()) then
 				local x,y = GetActiveScreenResolution()
 				local z = 0.5625 * y
